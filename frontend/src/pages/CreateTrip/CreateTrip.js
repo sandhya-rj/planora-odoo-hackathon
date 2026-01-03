@@ -1,467 +1,555 @@
 /**
- * CreateTrip Page
- * Create new trip with itinerary builder matching wireframe
+ * CreateTrip - Premium Trip Creation Interface
+ * SYSTEM OVERRIDE: Completely rebuilt from scratch
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CreateTrip.css';
-import Alert from '../../components/Alert/Alert';
-import { CalendarIcon, DollarIcon, PlusIcon, CloseIcon, LogoutIcon } from '../../assets/svg/Icons';
+import { 
+  CalendarIcon, 
+  DollarIcon, 
+  PlusIcon, 
+  ChevronLeftIcon,
+  CheckIcon,
+  MapPinIcon,
+  ClockIcon,
+  UserIcon
+} from '../../assets/svg/Icons';
 import { tripAPI } from '../../services/api';
 import { TRAVEL_STYLES, VALIDATION, STORAGE_KEYS } from '../../config';
 import LogoIcon from '../../assets/svg/LogoIcon';
 
 const CreateTrip = () => {
   const navigate = useNavigate();
+  
+  // Form state
   const [formData, setFormData] = useState({
     name: '',
+    description: '',
     startDate: '',
     endDate: '',
-    description: '',
+    travelStyle: '',
     companion: '',
-    budgetStyle: '',
     pace: '',
     budget: '',
-    coverPhoto: null,
+    coverPhoto: null
   });
+  
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  /**
-   * Validate form
-   */
-  const validateForm = () => {
+  const steps = [
+    { id: 1, label: 'Trip Info', icon: MapPinIcon },
+    { id: 2, label: 'Travel Style', icon: UserIcon },
+    { id: 3, label: 'Dates', icon: CalendarIcon },
+    { id: 4, label: 'Budget', icon: DollarIcon }
+  ];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors(prev => ({ ...prev, coverPhoto: 'Image must be less than 5MB' }));
+        return;
+      }
+      
+      setFormData(prev => ({ ...prev, coverPhoto: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setErrors(prev => ({ ...prev, coverPhoto: null }));
+    }
+  };
+
+  const removePhoto = () => {
+    setFormData(prev => ({ ...prev, coverPhoto: null }));
+    setPhotoPreview(null);
+  };
+
+  const validateStep = (step) => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Trip name is required';
-    } else if (formData.name.length < VALIDATION.TRIP_NAME_MIN_LENGTH) {
-      newErrors.name = `Trip name must be at least ${VALIDATION.TRIP_NAME_MIN_LENGTH} characters`;
-    } else if (formData.name.length > VALIDATION.TRIP_NAME_MAX_LENGTH) {
-      newErrors.name = `Trip name cannot exceed ${VALIDATION.TRIP_NAME_MAX_LENGTH} characters`;
-    }
-
-    if (!formData.startDate) {
-      newErrors.startDate = 'Start date is required';
-    }
-
-    if (!formData.endDate) {
-      newErrors.endDate = 'End date is required';
-    }
-
-    if (formData.startDate && formData.endDate) {
-      const start = new Date(formData.startDate);
-      const end = new Date(formData.endDate);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (start < today) {
-        newErrors.startDate = 'Start date cannot be in the past';
-      }
-
-      if (end < start) {
-        newErrors.endDate = 'End date must be after start date';
-      }
-
-      const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-      if (daysDiff > VALIDATION.MAX_TRIP_DAYS) {
-        newErrors.endDate = `Trip cannot exceed ${VALIDATION.MAX_TRIP_DAYS} days`;
+    if (step === 1) {
+      if (!formData.name.trim()) {
+        newErrors.name = 'Trip name is required';
+      } else if (formData.name.length < 3) {
+        newErrors.name = 'Trip name must be at least 3 characters';
       }
     }
 
-    if (!formData.companion) {
-      newErrors.companion = 'Travel companion is required';
-    }
-
-    if (!formData.budgetStyle) {
-      newErrors.budgetStyle = 'Budget style is required';
-    }
-
-    if (!formData.pace) {
-      newErrors.pace = 'Travel pace is required';
-    }
-
-    if (formData.budget) {
-      const budgetNum = parseFloat(formData.budget);
-      if (isNaN(budgetNum) || budgetNum < VALIDATION.MIN_BUDGET) {
-        newErrors.budget = 'Please enter a valid budget';
-      } else if (budgetNum > VALIDATION.MAX_BUDGET) {
-        newErrors.budget = `Budget cannot exceed ${VALIDATION.MAX_BUDGET.toLocaleString()}`;
+    if (step === 2) {
+      if (!formData.travelStyle) {
+        newErrors.travelStyle = 'Please select a travel style';
       }
     }
 
-    if (formData.description && formData.description.length > 500) {
-      newErrors.description = 'Description cannot exceed 500 characters';
+    if (step === 3) {
+      if (!formData.startDate) {
+        newErrors.startDate = 'Start date is required';
+      }
+      if (!formData.endDate) {
+        newErrors.endDate = 'End date is required';
+      }
+      if (formData.startDate && formData.endDate) {
+        const start = new Date(formData.startDate);
+        const end = new Date(formData.endDate);
+        if (end < start) {
+          newErrors.endDate = 'End date must be after start date';
+        }
+      }
+    }
+
+    if (step === 4) {
+      if (formData.budget && formData.budget < 0) {
+        newErrors.budget = 'Budget must be a positive number';
+      }
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  /**
-   * Handle file upload for cover photo
-   */
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        setErrors((prev) => ({
-          ...prev,
-          coverPhoto: 'Please select a valid image file',
-        }));
-        return;
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      if (currentStep < 4) {
+        setCurrentStep(currentStep + 1);
       }
-
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({
-          ...prev,
-          coverPhoto: 'Image size must be less than 5MB',
-        }));
-        return;
-      }
-
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result);
-        setFormData((prev) => ({
-          ...prev,
-          coverPhoto: reader.result,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          coverPhoto: '',
-        }));
-      };
-      reader.readAsDataURL(file);
     }
   };
 
-  /**
-   * Remove cover photo
-   */
-  const handleRemovePhoto = () => {
-    setPhotoPreview(null);
-    setFormData((prev) => ({
-      ...prev,
-      coverPhoto: null,
-    }));
-  };
-
-  /**
-   * Handle input change
-   */
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: '',
-      }));
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
-  /**
-   * Handle form submission
-   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAlert(null);
-
-    if (!validateForm()) {
+    
+    if (!validateStep(4)) {
       return;
     }
 
     setLoading(true);
+    setAlert(null);
 
     try {
       const tripData = {
         name: formData.name,
+        description: formData.description,
         startDate: formData.startDate,
         endDate: formData.endDate,
-        description: formData.description || '',
-        style: {
-          groupType: formData.companion,
-          budgetType: formData.budgetStyle,
-          pace: formData.pace,
-        },
+        travelStyle: formData.travelStyle,
+        companion: formData.companion,
+        pace: formData.pace,
         budget: formData.budget ? parseFloat(formData.budget) : null,
-        coverPhoto: formData.coverPhoto || null,
+        coverPhoto: photoPreview
       };
 
       const response = await tripAPI.create(tripData);
       
-      // Navigate to trip details/stops management
-      navigate(`/trips/${response.trip.id}/stops`);
+      setAlert({
+        type: 'success',
+        message: 'Trip created successfully! Redirecting...'
+      });
+
+      setTimeout(() => {
+        navigate(`/trip/${response.trip.id}/stops`);
+      }, 1500);
+
     } catch (error) {
+      console.error('Failed to create trip:', error);
       setAlert({
         type: 'error',
-        message: error.message || 'Failed to create trip. Please try again.',
+        message: error.message || 'Failed to create trip. Please try again.'
       });
     } finally {
       setLoading(false);
     }
   };
 
-  /**
-   * Handle logout
-   */
-  const handleLogout = () => {
-    localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.USER_DATA);
-    navigate('/login');
+  const getTripDuration = () => {
+    if (formData.startDate && formData.endDate) {
+      const start = new Date(formData.startDate);
+      const end = new Date(formData.endDate);
+      const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      return days > 0 ? `${days} day${days !== 1 ? 's' : ''}` : '';
+    }
+    return '';
   };
 
   return (
     <div className="create-trip-page">
-      {/* Professional Header */}
+      {/* Header Section */}
       <header className="create-trip-header">
-        <div className="create-trip-header-content">
+        <div className="header-overlay"></div>
+        <div className="header-content">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <ChevronLeftIcon size={20} />
             <span>Back to Dashboard</span>
           </button>
-          <div className="header-logo">
-            <LogoIcon width={40} height={40} />
-            <span className="header-logo-text">Planora</span>
+          <div className="header-text">
+            <h1 className="header-title">Create Your Dream Trip</h1>
+            <p className="header-subtitle">
+              Plan your perfect journey in just a few simple steps
+            </p>
           </div>
-          <button className="header-logout-btn" onClick={handleLogout}>
-            <LogoutIcon width={18} height={18} />
-            <span>Logout</span>
-          </button>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="create-trip-container">
-        {/* Page Title */}
-        <div className="page-header">
-          <h1 className="page-title">Create New Trip</h1>
-          <p className="page-subtitle">
-            Start planning your next adventure by filling in the details below
-          </p>
-        </div>
-
-        {alert && (
-          <Alert
-            type={alert.type}
-            message={alert.message}
-            onClose={() => setAlert(null)}
-          />
-        )}
-
-        {/* Form Card */}
-        <div className="form-card">
-          <form onSubmit={handleSubmit} className="create-trip-form">
-            {/* Basic Information */}
-            <div className="form-section">
-              <h3 className="section-title">Basic Information</h3>
-              
-              <div className="form-group">
-                <label className="form-label">Trip Name <span className="required">*</span></label>
-                <input
-                  type="text"
-                  name="name"
-                  className={`form-input ${errors.name ? 'error' : ''}`}
-                  placeholder="e.g., European Summer Adventure"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                {errors.name && <span className="form-error">{errors.name}</span>}
+      <main className="create-trip-main">
+        <div className="create-trip-container">
+          
+          {/* Progress Steps */}
+          <div className="progress-steps">
+            {steps.map((step, index) => (
+              <div 
+                key={step.id} 
+                className={`step-item ${currentStep >= step.id ? 'active' : ''} ${currentStep === step.id ? 'current' : ''}`}
+              >
+                <div className="step-circle">
+                  {currentStep > step.id ? (
+                    <CheckIcon size={20} />
+                  ) : (
+                    <step.icon size={20} />
+                  )}
+                </div>
+                <span className="step-label">{step.label}</span>
+                {index < steps.length - 1 && <div className="step-line"></div>}
               </div>
+            ))}
+          </div>
 
-              <div className="form-group">
-                <label className="form-label">Description</label>
-                <textarea
-                  name="description"
-                  className={`form-textarea ${errors.description ? 'error' : ''}`}
-                  placeholder="Share details about your trip plans..."
-                  value={formData.description}
-                  onChange={handleChange}
-                  maxLength={500}
-                  rows={4}
-                />
-                <div className="textarea-footer">
-                  {errors.description && <span className="form-error">{errors.description}</span>}
-                  <span className="char-count">{formData.description.length}/500</span>
+          {/* Alert Messages */}
+          {alert && (
+            <div className={`alert-banner alert-${alert.type}`}>
+              <span>{alert.message}</span>
+            </div>
+          )}
+
+          {/* Form Content */}
+          <form onSubmit={handleSubmit} className="trip-form">
+            
+            {/* Step 1: Trip Info */}
+            {currentStep === 1 && (
+              <div className="form-step-content">
+                <div className="step-header">
+                  <MapPinIcon size={32} />
+                  <h2 className="step-title">Trip Information</h2>
+                  <p className="step-description">Give your trip a memorable name and description</p>
+                </div>
+
+                <div className="form-cards-grid">
+                  {/* Trip Name Card */}
+                  <div className="form-card">
+                    <label className="form-label">
+                      Trip Name <span className="required">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Summer Adventure in Paris"
+                      className={`form-input ${errors.name ? 'error' : ''}`}
+                    />
+                    {errors.name && <span className="error-text">{errors.name}</span>}
+                  </div>
+
+                  {/* Description Card */}
+                  <div className="form-card full-width">
+                    <label className="form-label">Description</label>
+                    <textarea
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      placeholder="Describe your trip, what you plan to do, places you want to visit..."
+                      className="form-textarea"
+                      rows={4}
+                    />
+                  </div>
+
+                  {/* Cover Photo Card */}
+                  <div className="form-card full-width">
+                    <label className="form-label">Cover Photo</label>
+                    <div className="photo-upload-area">
+                      {photoPreview ? (
+                        <div className="photo-preview-container">
+                          <img src={photoPreview} alt="Cover preview" className="photo-preview-img" />
+                          <div className="photo-overlay">
+                            <button type="button" className="remove-photo-btn" onClick={removePhoto}>
+                              Remove Photo
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="upload-label">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoUpload}
+                            className="upload-input"
+                          />
+                          <div className="upload-content">
+                            <PlusIcon size={48} />
+                            <span className="upload-text">Click to upload cover photo</span>
+                            <span className="upload-hint">JPG, PNG or WEBP (max 5MB)</span>
+                          </div>
+                        </label>
+                      )}
+                    </div>
+                    {errors.coverPhoto && <span className="error-text">{errors.coverPhoto}</span>}
+                  </div>
                 </div>
               </div>
+            )}
 
-              {/* Cover Photo Upload */}
-              <div className="form-group">
-                <label className="form-label">Cover Photo</label>
-                {!photoPreview ? (
-                  <div className="photo-upload">
-                    <input
-                      type="file"
-                      id="coverPhoto"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      style={{ display: 'none' }}
-                    />
-                    <label htmlFor="coverPhoto" className="photo-upload-btn">
-                      <PlusIcon width={24} height={24} />
-                      <div className="photo-upload-text">
-                        <span className="upload-title">Upload Cover Photo</span>
-                        <span className="upload-hint">Max 5MB • JPG, PNG, GIF</span>
-                      </div>
+            {/* Step 2: Travel Style */}
+            {currentStep === 2 && (
+              <div className="form-step-content">
+                <div className="step-header">
+                  <UserIcon size={32} />
+                  <h2 className="step-title">Travel Style</h2>
+                  <p className="step-description">Help us understand your travel preferences</p>
+                </div>
+
+                <div className="form-cards-grid">
+                  {/* Travel Style */}
+                  <div className="form-card">
+                    <label className="form-label">
+                      Travel Style <span className="required">*</span>
                     </label>
-                  </div>
-                ) : (
-                  <div className="photo-preview-wrapper">
-                    <img src={photoPreview} alt="Cover" className="photo-preview" />
-                    <button
-                      type="button"
-                      className="photo-remove-btn"
-                      onClick={handleRemovePhoto}
+                    <select
+                      name="travelStyle"
+                      value={formData.travelStyle}
+                      onChange={handleInputChange}
+                      className={`form-select ${errors.travelStyle ? 'error' : ''}`}
                     >
-                      <CloseIcon width={18} height={18} />
-                    </button>
+                      <option value="">Select travel style</option>
+                      {TRAVEL_STYLES.map(style => (
+                        <option key={style} value={style}>{style}</option>
+                      ))}
+                    </select>
+                    {errors.travelStyle && <span className="error-text">{errors.travelStyle}</span>}
                   </div>
-                )}
-                {errors.coverPhoto && <span className="form-error">{errors.coverPhoto}</span>}
-              </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Start Date <span className="required">*</span></label>
-                  <div className="input-with-icon">
-                    <CalendarIcon width={18} height={18} />
+                  {/* Travel Companion */}
+                  <div className="form-card">
+                    <label className="form-label">Traveling With</label>
+                    <select
+                      name="companion"
+                      value={formData.companion}
+                      onChange={handleInputChange}
+                      className="form-select"
+                    >
+                      <option value="">Select companion</option>
+                      <option value="solo">Solo</option>
+                      <option value="partner">Partner</option>
+                      <option value="family">Family</option>
+                      <option value="friends">Friends</option>
+                      <option value="group">Group</option>
+                    </select>
+                  </div>
+
+                  {/* Travel Pace */}
+                  <div className="form-card full-width">
+                    <label className="form-label">Travel Pace</label>
+                    <div className="pace-options">
+                      {['Relaxed', 'Moderate', 'Fast-paced'].map(pace => (
+                        <button
+                          key={pace}
+                          type="button"
+                          className={`pace-btn ${formData.pace === pace ? 'active' : ''}`}
+                          onClick={() => setFormData(prev => ({ ...prev, pace }))}
+                        >
+                          <ClockIcon size={20} />
+                          <span>{pace}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Dates */}
+            {currentStep === 3 && (
+              <div className="form-step-content">
+                <div className="step-header">
+                  <CalendarIcon size={32} />
+                  <h2 className="step-title">Travel Dates</h2>
+                  <p className="step-description">When will your adventure begin?</p>
+                </div>
+
+                <div className="form-cards-grid">
+                  {/* Start Date */}
+                  <div className="form-card">
+                    <label className="form-label">
+                      Start Date <span className="required">*</span>
+                    </label>
                     <input
                       type="date"
                       name="startDate"
-                      className={`form-input ${errors.startDate ? 'error' : ''}`}
                       value={formData.startDate}
-                      onChange={handleChange}
+                      onChange={handleInputChange}
+                      className={`form-input ${errors.startDate ? 'error' : ''}`}
                     />
+                    {errors.startDate && <span className="error-text">{errors.startDate}</span>}
                   </div>
-                  {errors.startDate && <span className="form-error">{errors.startDate}</span>}
-                </div>
-                <div className="form-group">
-                  <label className="form-label">End Date <span className="required">*</span></label>
-                  <div className="input-with-icon">
-                    <CalendarIcon width={18} height={18} />
+
+                  {/* End Date */}
+                  <div className="form-card">
+                    <label className="form-label">
+                      End Date <span className="required">*</span>
+                    </label>
                     <input
                       type="date"
                       name="endDate"
-                      className={`form-input ${errors.endDate ? 'error' : ''}`}
                       value={formData.endDate}
-                      onChange={handleChange}
+                      onChange={handleInputChange}
+                      className={`form-input ${errors.endDate ? 'error' : ''}`}
                     />
+                    {errors.endDate && <span className="error-text">{errors.endDate}</span>}
                   </div>
-                  {errors.endDate && <span className="form-error">{errors.endDate}</span>}
+
+                  {/* Duration Display */}
+                  {getTripDuration() && (
+                    <div className="form-card full-width">
+                      <div className="duration-display">
+                        <CalendarIcon size={24} />
+                        <div className="duration-text">
+                          <span className="duration-label">Trip Duration</span>
+                          <span className="duration-value">{getTripDuration()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
+            )}
 
-              <div className="form-group">
-                <label className="form-label">Total Budget (USD)</label>
-                <div className="input-with-icon">
-                  <DollarIcon width={18} height={18} />
-                  <input
-                    type="number"
-                    name="budget"
-                    className={`form-input ${errors.budget ? 'error' : ''}`}
-                    placeholder="Enter total budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    min={VALIDATION.MIN_BUDGET}
-                    max={VALIDATION.MAX_BUDGET}
-                  />
+            {/* Step 4: Budget */}
+            {currentStep === 4 && (
+              <div className="form-step-content">
+                <div className="step-header">
+                  <DollarIcon size={32} />
+                  <h2 className="step-title">Budget Planning</h2>
+                  <p className="step-description">Set your budget to help plan expenses</p>
                 </div>
-                {errors.budget && <span className="form-error">{errors.budget}</span>}
-              </div>
-            </div>
 
-            {/* Travel Style */}
-            <div className="form-section">
-              <h3 className="section-title">Travel Style</h3>
-              
-              <div className="form-group">
-                <label className="form-label">Travel Companion <span className="required">*</span></label>
-                <select
-                  name="companion"
-                  className={`form-select ${errors.companion ? 'error' : ''}`}
-                  value={formData.companion}
-                  onChange={handleChange}
-                >
-                  <option value="">Select travel companion</option>
-                  {TRAVEL_STYLES.COMPANION.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.companion && <span className="form-error">{errors.companion}</span>}
-              </div>
+                <div className="form-cards-grid">
+                  {/* Budget Amount */}
+                  <div className="form-card full-width">
+                    <label className="form-label">Total Budget (USD)</label>
+                    <div className="budget-input-wrapper">
+                      <span className="currency-symbol">$</span>
+                      <input
+                        type="number"
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        placeholder="0.00"
+                        className={`form-input budget-input ${errors.budget ? 'error' : ''}`}
+                        min="0"
+                        step="0.01"
+                      />
+                    </div>
+                    {errors.budget && <span className="error-text">{errors.budget}</span>}
+                    <p className="input-hint">Optional: Leave blank if you prefer not to set a budget</p>
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Budget Style <span className="required">*</span></label>
-                <select
-                  name="budgetStyle"
-                  className={`form-select ${errors.budgetStyle ? 'error' : ''}`}
-                  value={formData.budgetStyle}
-                  onChange={handleChange}
-                >
-                  <option value="">Select budget style</option>
-                  {TRAVEL_STYLES.BUDGET.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.budgetStyle && <span className="form-error">{errors.budgetStyle}</span>}
+                  {/* Budget Summary Card */}
+                  <div className="form-card full-width">
+                    <div className="summary-card">
+                      <h3 className="summary-title">Trip Summary</h3>
+                      <div className="summary-items">
+                        <div className="summary-item">
+                          <span className="summary-label">Trip Name:</span>
+                          <span className="summary-value">{formData.name || 'Not set'}</span>
+                        </div>
+                        <div className="summary-item">
+                          <span className="summary-label">Travel Style:</span>
+                          <span className="summary-value">{formData.travelStyle || 'Not set'}</span>
+                        </div>
+                        <div className="summary-item">
+                          <span className="summary-label">Duration:</span>
+                          <span className="summary-value">{getTripDuration() || 'Not set'}</span>
+                        </div>
+                        <div className="summary-item">
+                          <span className="summary-label">Budget:</span>
+                          <span className="summary-value">
+                            {formData.budget ? `$${parseFloat(formData.budget).toLocaleString()}` : 'Not set'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            )}
 
-              <div className="form-group">
-                <label className="form-label">Travel Pace <span className="required">*</span></label>
-                <select
-                  name="pace"
-                  className={`form-select ${errors.pace ? 'error' : ''}`}
-                  value={formData.pace}
-                  onChange={handleChange}
-                >
-                  <option value="">Select travel pace</option>
-                  {TRAVEL_STYLES.PACE.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.pace && <span className="form-error">{errors.pace}</span>}
-              </div>
-            </div>
-
-            {/* Form Actions */}
+            {/* Navigation Buttons */}
             <div className="form-actions">
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => navigate('/dashboard')}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="btn-primary"
-                disabled={loading}
-              >
-                {loading ? 'Creating...' : 'Create Trip & Add Stops'}
-              </button>
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="btn-secondary"
+                  disabled={loading}
+                >
+                  <ChevronLeftIcon size={20} />
+                  <span>Previous</span>
+                </button>
+              )}
+              
+              <div className="actions-spacer"></div>
+
+              {currentStep < 4 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="btn-primary"
+                >
+                  <span>Continue</span>
+                  <CheckIcon size={20} />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn-primary btn-submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <div className="btn-spinner"></div>
+                      <span>Creating Trip...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckIcon size={20} />
+                      <span>Create Trip</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </form>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

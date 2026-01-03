@@ -73,26 +73,22 @@ const Login = () => {
 
     setLoading(true);
 
-    try {
-      const response = await authAPI.login({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      // Store auth token and user data
-      localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, response.token);
-      localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(response.user));
+    // DEMO MODE: Simulate successful login without backend
+    setTimeout(() => {
+      // Store mock auth token
+      localStorage.setItem('authToken', 'demo-token');
+      
+      // Store mock user data
+      localStorage.setItem('user', JSON.stringify({
+        id: 1,
+        name: 'Demo User',
+        email: 'demo@planora.app'
+      }));
 
       // Navigate to dashboard
       navigate('/dashboard');
-    } catch (error) {
-      setAlert({
-        type: 'error',
-        message: error.message || 'Login failed. Please check your credentials.',
-      });
-    } finally {
       setLoading(false);
-    }
+    }, 500); // Small delay to show loading state
   };
 
   return (
