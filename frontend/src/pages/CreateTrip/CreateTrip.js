@@ -156,8 +156,9 @@ const CreateTrip = () => {
         coverPhoto: photoPreview
       };
 
-      // DEMO MODE: Create trip with demo ID
-      const demoTripId = 'demo-trip-' + Date.now();
+      // DEMO MODE: Use demo-ongoing-1 to show existing itinerary with stops
+      // In production, this would be the API-generated trip ID
+      const demoTripId = 'demo-ongoing-1';
       
       setAlert({
         type: 'success',
