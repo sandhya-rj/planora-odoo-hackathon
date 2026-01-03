@@ -1,0 +1,76 @@
+.planora-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.planora-alert__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.planora-alert__message {
+  flex: 1;
+}
+
+.planora-alert__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.planora-alert__close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Alert Types */
+.planora-alert--success {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #4CAF50;
+}
+
+.planora-alert--success .planora-alert__icon {
+  color: #4CAF50;
+}
+
+.planora-alert--warning {
+  background-color: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FF9800;
+}
+
+.planora-alert--warning .planora-alert__icon {
+  color: #FF9800;
+}
+
+.planora-alert--error {
+  background-color: #FFEBEE;
+  color: #C62828;
+  border: 1px solid #F44336;
+}
+
+.planora-alert--error .planora-alert__icon {
+  color: #F44336;
+}
+
+.planora-alert--info {
+  background-color: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #2196F3;
+}
+
+.planora-alert--info .planora-alert__icon {
+  color: #2196F3;
+}

@@ -1,0 +1,53 @@
+.planora-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.planora-card--hoverable:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.planora-card--clickable {
+  cursor: pointer;
+}
+
+.planora-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.planora-card__header-text {
+  flex: 1;
+}
+
+.planora-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}
+
+.planora-card__subtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 4px 0 0 0;
+}
+
+.planora-card__header-action {
+  margin-left: 16px;
+}
+
+.planora-card__content {
+  padding: 20px;
+}
+
+.planora-card--no-padding .planora-card__content {
+  padding: 0;
+}

@@ -1,0 +1,509 @@
+/* ===========================
+   TRIP STOPS - PRODUCTION DESIGN
+   =========================== */
+
+.trip-stops-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
+}
+
+/* ===========================
+   PAGE HEADER
+   =========================== */
+.page-header {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  gap: 24px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.back-btn:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  color: #1F2937;
+}
+
+.trip-header-info {
+  flex: 1;
+  text-align: center;
+}
+
+.trip-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1F2937;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.5px;
+}
+
+.trip-subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.add-stop-btn-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #FFC107;
+  border: none;
+  border-radius: 8px;
+  color: #1F2937;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.add-stop-btn-header:hover {
+  background: #FFB300;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* ===========================
+   MAIN CONTAINER
+   =========================== */
+.trip-stops-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ===========================
+   ADD STOP FORM
+   =========================== */
+.add-stop-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.add-stop-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0 0 24px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #FFC107;
+}
+
+.add-stop-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.required {
+  color: #EF4444;
+  margin-left: 4px;
+}
+
+.form-input {
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #1F2937;
+  background: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #FFC107;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+}
+
+.form-input.error {
+  border-color: #EF4444;
+}
+
+.form-error {
+  font-size: 12px;
+  color: #EF4444;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-cancel {
+  background: #F9FAFB;
+  color: #6B7280;
+  border: 1px solid #D1D5DB;
+}
+
+.btn-cancel:hover {
+  background: #F3F4F6;
+  border-color: #9CA3AF;
+}
+
+.btn-submit {
+  background: #FFC107;
+  color: #1F2937;
+}
+
+.btn-submit:hover {
+  background: #FFB300;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* ===========================
+   STOPS SECTION
+   =========================== */
+.stops-section {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.stops-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #FFC107;
+}
+
+.stops-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+}
+
+/* ===========================
+   STOPS GRID
+   =========================== */
+.stops-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stop-card {
+  position: relative;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.stop-card:hover {
+  border-color: #FFC107;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15);
+}
+
+.stop-number-badge {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #FFD54F 0%, #FFC107 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1F2937;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.stop-card-content {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stop-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stop-icon svg {
+  color: #FFC107;
+}
+
+.stop-details {
+  flex: 1;
+}
+
+.stop-city-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0 0 8px 0;
+}
+
+.stop-dates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.stop-dates svg {
+  opacity: 0.6;
+}
+
+.stop-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-manage,
+.btn-delete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-manage {
+  background: #FFC107;
+  color: #1F2937;
+  flex: 1;
+}
+
+.btn-manage:hover {
+  background: #FFB300;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background: #FEE2E2;
+  color: #EF4444;
+  padding: 10px;
+}
+
+.btn-delete:hover {
+  background: #FECACA;
+}
+
+/* ===========================
+   EMPTY STATE
+   =========================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon svg {
+  color: #FFC107;
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+  max-width: 400px;
+}
+
+.empty-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: #FFC107;
+  border: none;
+  border-radius: 8px;
+  color: #1F2937;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.empty-btn:hover {
+  background: #FFB300;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* ===========================
+   NEXT STEP
+   =========================== */
+.next-step {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #E5E7EB;
+  text-align: center;
+}
+
+.btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: #10B981;
+  border: none;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-next:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* ===========================
+   LOADING
+   =========================== */
+.page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #6B7280;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .page-header-content {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .trip-header-info {
+    text-align: left;
+  }
+
+  .trip-title {
+    font-size: 24px;
+  }
+
+  .trip-stops-container {
+    padding: 24px 20px;
+  }
+
+  .add-stop-card,
+  .stops-section {
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stop-actions {
+    flex-direction: column;
+  }
+}

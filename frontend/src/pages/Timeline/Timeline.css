@@ -1,0 +1,162 @@
+.timeline-page {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  padding: 32px 0;
+}
+
+.timeline-container {
+  max-width: 800px;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.timeline-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 8px 0;
+}
+
+.timeline-subtitle {
+  font-size: 16px;
+  color: #666666;
+  margin: 0;
+}
+
+.timeline-empty {
+  text-align: center;
+  padding: 64px 32px;
+  color: #666666;
+}
+
+.timeline-empty p {
+  margin-top: 16px;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-day {
+  display: flex;
+  gap: 24px;
+  position: relative;
+}
+
+.timeline-day-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.timeline-day-number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #FFC107;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 1;
+}
+
+.timeline-connector {
+  width: 3px;
+  flex: 1;
+  background-color: #E0E0E0;
+  margin-top: 8px;
+}
+
+.timeline-day:last-child .timeline-connector {
+  display: none;
+}
+
+.timeline-day-card {
+  flex: 1;
+  margin-bottom: 32px;
+}
+
+.timeline-day-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.timeline-day-date {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 4px 0;
+}
+
+.timeline-day-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.timeline-activities-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-activity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #F5F5F5;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.timeline-no-activities {
+  padding: 16px;
+  text-align: center;
+  color: #999999;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .timeline-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .timeline-day {
+    gap: 16px;
+  }
+
+  .timeline-day-number {
+    width: 50px;
+    height: 50px;
+    font-size: 12px;
+  }
+}

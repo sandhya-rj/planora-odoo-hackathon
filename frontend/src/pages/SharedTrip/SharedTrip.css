@@ -1,0 +1,159 @@
+.shared-trip-page {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+.shared-trip-header {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 16px 0;
+  margin-bottom: 32px;
+}
+
+.shared-trip-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shared-trip-container {
+  max-width: 900px;
+  padding-bottom: 48px;
+}
+
+.shared-trip-error {
+  text-align: center;
+  padding: 64px 32px;
+}
+
+.shared-trip-error h2 {
+  font-size: 24px;
+  color: #333333;
+  margin: 16px 0 8px;
+}
+
+.shared-trip-error p {
+  color: #666666;
+}
+
+.shared-trip-title-section {
+  margin-bottom: 32px;
+}
+
+.shared-trip-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 16px 0;
+}
+
+.shared-trip-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.shared-trip-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #666666;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 20px 0;
+}
+
+.stops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.shared-stop-card {
+  padding: 24px !important;
+}
+
+.shared-stop-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #FFC107;
+}
+
+.shared-stop-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #FFC107;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.shared-stop-city {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 4px 0;
+}
+
+.shared-stop-dates {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+.shared-activities-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666666;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.shared-activities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shared-activity {
+  padding: 12px 16px;
+  background-color: #F5F5F5;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333333;
+}
+
+.activity-cost {
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+@media (max-width: 768px) {
+  .shared-trip-title {
+    font-size: 28px;
+  }
+
+  .shared-trip-meta {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

@@ -1,0 +1,168 @@
+.activity-management-page {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  padding: 32px 0;
+}
+
+.activity-management-container {
+  max-width: 900px;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.activity-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 8px 0;
+}
+
+.activity-subtitle {
+  font-size: 16px;
+  color: #666666;
+  margin: 0;
+}
+
+.activity-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  padding: 16px !important;
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+.activities-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #FFC107;
+}
+
+.activities-list-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}
+
+.add-activity-form {
+  background-color: #F5F5F5;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activities-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #666666;
+}
+
+.activities-empty p {
+  margin-top: 16px;
+}
+
+.activity-item {
+  padding: 16px;
+  background-color: #F5F5F5;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.activity-item:hover {
+  background-color: #EEEEEE;
+}
+
+.activity-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.activity-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}
+
+.activity-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.activity-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #666666;
+}
+
+.activity-notes {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .activity-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .activity-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-main {
+    flex-direction: column;
+  }
+}
