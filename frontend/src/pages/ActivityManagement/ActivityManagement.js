@@ -439,7 +439,7 @@ const ActivityManagement = () => {
                 {editingActivity ? 'Edit Activity' : 'Add Activity'}
               </h3>
               <button className="modal-close" onClick={closeModal}>
-                <XIcon size={24} />
+                <CloseIcon size={24} />
               </button>
             </div>
 
@@ -516,7 +516,7 @@ const ActivityManagement = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn-save">
-                  <SaveIcon size={18} />
+                  <CheckIcon size={18} />
                   <span>{editingActivity ? 'Update' : 'Add'}</span>
                 </button>
               </div>
