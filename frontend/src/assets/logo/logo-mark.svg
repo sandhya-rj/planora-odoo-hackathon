@@ -1,0 +1,8 @@
+<svg width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Route path forming vertical line -->
+  <rect x="6" y="14" width="4" height="18" rx="2" fill="#FFC107"/>
+  <!-- Location pin at top -->
+  <path d="M8 4C5.79 4 4 5.79 4 8C4 10.5 8 16 8 16C8 16 12 10.5 12 8C12 5.79 10.21 4 8 4ZM8 9.5C7.17 9.5 6.5 8.83 6.5 8C6.5 7.17 7.17 6.5 8 6.5C8.83 6.5 9.5 7.17 9.5 8C9.5 8.83 8.83 9.5 8 9.5Z" fill="#FFC107"/>
+  <!-- Destination dot -->
+  <circle cx="8" cy="35" r="3.5" fill="#FFC107"/>
+</svg>

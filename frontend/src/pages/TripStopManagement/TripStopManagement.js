@@ -20,6 +20,136 @@ import {
 } from '../../assets/svg/Icons';
 import { tripAPI, stopAPI } from '../../services/api';
 
+/**
+ * DEMO DATA - Matches Dashboard demo trips
+ * Provides realistic stop data when backend is unavailable
+ */
+const DEMO_TRIP_DATA = {
+  'demo-ongoing-1': {
+    trip: {
+      id: 'demo-ongoing-1',
+      name: 'European Adventure',
+      description: 'Exploring the historic cities of Western Europe',
+      startDate: '2025-12-28',
+      endDate: '2026-01-15',
+      budget: 4500,
+      coverPhoto: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Paris', country: 'France', startDate: '2025-12-28', endDate: '2026-01-02', budget: 1500, order: 1 },
+      { id: 's2', cityName: 'Amsterdam', country: 'Netherlands', startDate: '2026-01-03', endDate: '2026-01-08', budget: 1200, order: 2 },
+      { id: 's3', cityName: 'Berlin', country: 'Germany', startDate: '2026-01-09', endDate: '2026-01-15', budget: 1800, order: 3 }
+    ]
+  },
+  'demo-ongoing-2': {
+    trip: {
+      id: 'demo-ongoing-2',
+      name: 'Southeast Asia Explorer',
+      description: 'Island hopping and cultural immersion',
+      startDate: '2025-12-20',
+      endDate: '2026-01-10',
+      budget: 3200,
+      coverPhoto: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Bali', country: 'Indonesia', startDate: '2025-12-20', endDate: '2025-12-27', budget: 1000, order: 1 },
+      { id: 's2', cityName: 'Bangkok', country: 'Thailand', startDate: '2025-12-28', endDate: '2026-01-03', budget: 1100, order: 2 },
+      { id: 's3', cityName: 'Singapore', country: 'Singapore', startDate: '2026-01-04', endDate: '2026-01-10', budget: 1100, order: 3 }
+    ]
+  },
+  'demo-scheduled-1': {
+    trip: {
+      id: 'demo-scheduled-1',
+      name: 'Japan Cultural Journey',
+      description: 'Cherry blossom season and ancient temples',
+      startDate: '2026-03-20',
+      endDate: '2026-04-05',
+      budget: 5800,
+      coverPhoto: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Tokyo', country: 'Japan', startDate: '2026-03-20', endDate: '2026-03-25', budget: 1800, order: 1 },
+      { id: 's2', cityName: 'Kyoto', country: 'Japan', startDate: '2026-03-26', endDate: '2026-03-30', budget: 1500, order: 2 },
+      { id: 's3', cityName: 'Osaka', country: 'Japan', startDate: '2026-03-31', endDate: '2026-04-02', budget: 1200, order: 3 },
+      { id: 's4', cityName: 'Hiroshima', country: 'Japan', startDate: '2026-04-03', endDate: '2026-04-05', budget: 1300, order: 4 }
+    ]
+  },
+  'demo-scheduled-2': {
+    trip: {
+      id: 'demo-scheduled-2',
+      name: 'New York City Getaway',
+      description: 'Business and leisure in the Big Apple',
+      startDate: '2026-02-14',
+      endDate: '2026-02-21',
+      budget: 2800,
+      coverPhoto: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'New York', country: 'USA', startDate: '2026-02-14', endDate: '2026-02-21', budget: 2800, order: 1 }
+    ]
+  },
+  'demo-scheduled-3': {
+    trip: {
+      id: 'demo-scheduled-3',
+      name: 'Mediterranean Coast',
+      description: 'Coastal towns and ancient history',
+      startDate: '2026-06-10',
+      endDate: '2026-06-25',
+      budget: 4200,
+      coverPhoto: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Rome', country: 'Italy', startDate: '2026-06-10', endDate: '2026-06-15', budget: 1500, order: 1 },
+      { id: 's2', cityName: 'Athens', country: 'Greece', startDate: '2026-06-16', endDate: '2026-06-20', budget: 1300, order: 2 },
+      { id: 's3', cityName: 'Barcelona', country: 'Spain', startDate: '2026-06-21', endDate: '2026-06-25', budget: 1400, order: 3 }
+    ]
+  },
+  'demo-previous-1': {
+    trip: {
+      id: 'demo-previous-1',
+      name: 'London Business Trip',
+      description: 'Conference and client meetings',
+      startDate: '2025-11-05',
+      endDate: '2025-11-12',
+      budget: 3500,
+      coverPhoto: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'London', country: 'UK', startDate: '2025-11-05', endDate: '2025-11-12', budget: 3500, order: 1 }
+    ]
+  },
+  'demo-previous-2': {
+    trip: {
+      id: 'demo-previous-2',
+      name: 'Swiss Alps Retreat',
+      description: 'Mountain hiking and relaxation',
+      startDate: '2025-09-15',
+      endDate: '2025-09-28',
+      budget: 4800,
+      coverPhoto: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Zurich', country: 'Switzerland', startDate: '2025-09-15', endDate: '2025-09-20', budget: 1600, order: 1 },
+      { id: 's2', cityName: 'Interlaken', country: 'Switzerland', startDate: '2025-09-21', endDate: '2025-09-24', budget: 1500, order: 2 },
+      { id: 's3', cityName: 'Zermatt', country: 'Switzerland', startDate: '2025-09-25', endDate: '2025-09-28', budget: 1700, order: 3 }
+    ]
+  },
+  'demo-previous-3': {
+    trip: {
+      id: 'demo-previous-3',
+      name: 'Dubai Weekend',
+      description: 'Shopping and luxury experiences',
+      startDate: '2025-08-10',
+      endDate: '2025-08-14',
+      budget: 3200,
+      coverPhoto: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=500&fit=crop'
+    },
+    stops: [
+      { id: 's1', cityName: 'Dubai', country: 'UAE', startDate: '2025-08-10', endDate: '2025-08-14', budget: 3200, order: 1 }
+    ]
+  }
+};
+
 const TripStopManagement = () => {
   const { tripId } = useParams();
   const navigate = useNavigate();
@@ -50,6 +180,16 @@ const TripStopManagement = () => {
 
   const loadTripData = async () => {
     try {
+      // Check if this is a demo trip first
+      if (DEMO_TRIP_DATA[tripId]) {
+        const demoData = DEMO_TRIP_DATA[tripId];
+        setTrip(demoData.trip);
+        setStops(demoData.stops || []);
+        setLoading(false);
+        return;
+      }
+
+      // Try loading from backend
       const [tripResponse, stopsResponse] = await Promise.all([
         tripAPI.getById(tripId),
         stopAPI.getAll(tripId)
@@ -59,7 +199,15 @@ const TripStopManagement = () => {
       setStops(stopsResponse.stops || []);
     } catch (error) {
       console.error('Failed to load trip data:', error);
-      setAlert({ type: 'error', message: 'Failed to load trip data' });
+      
+      // Fallback to demo data if available
+      if (DEMO_TRIP_DATA[tripId]) {
+        const demoData = DEMO_TRIP_DATA[tripId];
+        setTrip(demoData.trip);
+        setStops(demoData.stops || []);
+      } else {
+        setAlert({ type: 'error', message: 'Failed to load trip data' });
+      }
     } finally {
       setLoading(false);
     }

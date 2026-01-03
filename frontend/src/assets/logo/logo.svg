@@ -1,0 +1,16 @@
+<svg width="180" height="48" viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Route + Pin Mark -->
+  <g id="mark">
+    <!-- Route path forming vertical line -->
+    <rect x="4" y="12" width="4" height="16" rx="2" fill="#FFC107"/>
+    <!-- Location pin at top -->
+    <path d="M6 4C3.79 4 2 5.79 2 8C2 10.5 6 16 6 16C6 16 10 10.5 10 8C10 5.79 8.21 4 6 4ZM6 9.5C5.17 9.5 4.5 8.83 4.5 8C4.5 7.17 5.17 6.5 6 6.5C6.83 6.5 7.5 7.17 7.5 8C7.5 8.83 6.83 9.5 6 9.5Z" fill="#FFC107"/>
+    <!-- Destination dot -->
+    <circle cx="6" cy="32" r="3" fill="#FFC107"/>
+  </g>
+  
+  <!-- PLANORA Text -->
+  <g id="text" transform="translate(24, 0)">
+    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#222222" letter-spacing="0.5">PLANORA</text>
+  </g>
+</svg>

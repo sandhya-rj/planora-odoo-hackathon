@@ -52,14 +52,14 @@ function App() {
       <div className="app">
         <Routes>
           {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
 
           {/* Protected Routes - Core Screens */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/trips/create" element={<CreateTrip />} />
-          <Route path="/trips/:tripId/stops" element={<TripStopManagement />} />
-          <Route path="/trips/:tripId/stops/:stopId/activities" element={<ActivityManagement />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/trips/create" element={<ProtectedRoute><CreateTrip /></ProtectedRoute>} />
+          <Route path="/trips/:tripId/stops" element={<ProtectedRoute><TripStopManagement /></ProtectedRoute>} />
+          <Route path="/trips/:tripId/stops/:stopId/activities" element={<ProtectedRoute><ActivityManagement /></ProtectedRoute>} />
 
           {/* Default Route */}
           <Route path="/" element={<Navigate to="/login" replace />} />

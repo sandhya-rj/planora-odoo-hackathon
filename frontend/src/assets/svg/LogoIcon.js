@@ -1,18 +1,75 @@
 /**
  * Logo Icon Component
- * SVG placeholder for Planora logo
+ * Mountain with sun and birds for travel planning
  */
 import React from 'react';
 
 const LogoIcon = ({ width = 48, height = 48, color = '#FFC107' }) => (
-  <svg width={width} height={height} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="24" cy="24" r="22" fill={color} />
-    <path
-      d="M24 8L28 18H32L26 24L30 36L24 30L18 36L22 24L16 18H20L24 8Z"
+  <svg 
+    width={width} 
+    height={height} 
+    viewBox="0 0 48 48" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Sun */}
+    <circle cx="24" cy="16" r="6" fill={color} opacity="0.9" />
+    
+    {/* Sun rays */}
+    <circle cx="24" cy="16" r="8" stroke={color} strokeWidth="1" opacity="0.4" />
+    
+    {/* Back mountain */}
+    <path 
+      d="M8 36 L18 20 L28 36 Z"
+      fill={color}
+      opacity="0.4"
+    />
+    
+    {/* Front mountain */}
+    <path 
+      d="M16 36 L24 16 L32 36 Z"
+      fill={color}
+      opacity="0.7"
+    />
+    
+    {/* Main mountain peak */}
+    <path 
+      d="M20 36 L28 20 L36 36 Z"
+      fill={color}
+    />
+    
+    {/* Snow cap on main peak */}
+    <path 
+      d="M26 24 L28 20 L30 24 Z"
       fill="white"
-      stroke="white"
-      strokeWidth="1"
-      strokeLinejoin="round"
+      opacity="0.8"
+    />
+    
+    {/* Birds - left bird */}
+    <path 
+      d="M10 14 Q12 12 14 14"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
+    />
+    
+    {/* Birds - right bird */}
+    <path 
+      d="M34 12 Q36 10 38 12"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
+    />
+    
+    {/* Birds - center bird */}
+    <path 
+      d="M18 10 Q20 8 22 10"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
     />
   </svg>
 );

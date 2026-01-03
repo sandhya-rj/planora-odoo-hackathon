@@ -9,6 +9,7 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Alert from '../../components/Alert/Alert';
 import LogoIcon from '../../assets/svg/LogoIcon';
+import { MapPinIcon, DollarIcon, ActivityIcon } from '../../assets/svg/Icons';
 import { authAPI } from '../../services/api';
 import { VALIDATION, STORAGE_KEYS } from '../../config';
 
@@ -75,11 +76,11 @@ const Login = () => {
 
     // DEMO MODE: Simulate successful login without backend
     setTimeout(() => {
-      // Store mock auth token
-      localStorage.setItem('authToken', 'demo-token');
+      // Store mock auth token using config keys
+      localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, 'demo-token');
       
-      // Store mock user data
-      localStorage.setItem('user', JSON.stringify({
+      // Store mock user data using config keys
+      localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify({
         id: 1,
         name: 'Demo User',
         email: 'demo@planora.app'
@@ -96,22 +97,28 @@ const Login = () => {
       {/* Left Panel - Branding */}
       <div className="login-brand-panel">
         <div className="login-brand-content">
-          <LogoIcon width={80} height={80} />
-          <h1 className="brand-title">Planora</h1>
+          <LogoIcon width={100} height={100} />
+          <h1 className="brand-title">PLANORA</h1>
           <p className="brand-tagline">
-            Plan your perfect journey with AI-powered itineraries
+            Design your journey
           </p>
           <div className="brand-features">
             <div className="brand-feature">
-              <div className="feature-icon">✈️</div>
+              <div className="feature-icon">
+                <MapPinIcon size={32} color="#FFC107" />
+              </div>
               <p>Multi-city trip planning</p>
             </div>
             <div className="brand-feature">
-              <div className="feature-icon">🎯</div>
+              <div className="feature-icon">
+                <DollarIcon size={32} color="#FFC107" />
+              </div>
               <p>Smart budget tracking</p>
             </div>
             <div className="brand-feature">
-              <div className="feature-icon">🤖</div>
+              <div className="feature-icon">
+                <ActivityIcon size={32} color="#FFC107" />
+              </div>
               <p>AI-powered recommendations</p>
             </div>
           </div>
