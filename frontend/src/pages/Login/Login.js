@@ -97,7 +97,7 @@ const Login = () => {
       {/* Left Panel - Branding */}
       <div className="login-brand-panel">
         <div className="login-brand-content">
-          <LogoIcon width={100} height={100} />
+          <LogoIcon width={100} height={100} withBackground={true} />
           <h1 className="brand-title">PLANORA</h1>
           <p className="brand-tagline">
             Design your journey

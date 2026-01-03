@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './TripStopManagement.css';
+import Navbar from '../../components/Navbar/Navbar';
 import { 
   PlusIcon, 
   MapPinIcon, 
@@ -637,6 +638,15 @@ const TripStopManagement = () => {
                           <p>{stop.notes}</p>
                         </div>
                       )}
+                      
+                      {/* Plan Activities Button */}
+                      <button 
+                        className="btn-plan-activities"
+                        onClick={() => navigate(`/trips/${tripId}/stops/${stop.id}/activities`)}
+                      >
+                        <ActivityIcon size={16} />
+                        <span>Plan Activities</span>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -696,15 +706,35 @@ const TripStopManagement = () => {
                 </div>
               )}
 
-              <button className="btn-continue" onClick={() => navigate(`/trip/${tripId}/activities`)}>
-                <span>Continue to Activities</span>
-                <CheckIcon size={18} />
-              </button>
+              {stops.length > 0 && (
+                <button 
+                  className="btn-continue" 
+                  onClick={() => navigate(`/trips/${tripId}/stops/${stops[0].id}/activities`)}
+                >
+                  <span>Start Planning Activities</span>
+                  <CheckIcon size={18} />
+                </button>
+              )}
             </div>
           </aside>
         </div>
       </main>
-
+      {/* Footer */}
+      <footer className="trip-stops-footer">
+        <div className="footer-content">
+          <div className="footer-text">
+            <p>© {new Date().getFullYear()} Planora. All rights reserved.</p>
+            <p>PLANORA™ - Design your journey with confidence</p>
+          </div>
+          <div className="footer-links">
+            <a href="#privacy" className="footer-link">Privacy</a>
+            <span className="footer-divider">•</span>
+            <a href="#terms" className="footer-link">Terms</a>
+            <span className="footer-divider">•</span>
+            <a href="#support" className="footer-link">Support</a>
+          </div>
+        </div>
+      </footer>
       {/* Add/Edit Modal */}
       {(showAddModal || editingStop) && (
         <div className="modal-overlay" onClick={closeModal}>

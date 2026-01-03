@@ -28,11 +28,11 @@
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 64px;
+  gap: 32px;
+  padding: 16px 64px;
   background: #FFFFFF;
-  border-bottom: 1px solid #E5E7EB;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  border-bottom: 2px solid #FFC107;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .navbar-brand {
@@ -41,6 +41,7 @@
   gap: 12px;
   cursor: pointer;
   transition: opacity 0.2s ease;
+  flex-shrink: 0;
 }
 
 .navbar-brand:hover {
@@ -54,10 +55,175 @@
   letter-spacing: -0.02em;
 }
 
+/* Navigation Menu */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background: #FFF9E6;
+  color: #1F2937;
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
+  color: #1F2937;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+}
+
+/* Search Bar */
+.navbar-search {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 42px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1F2937;
+  transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: #9CA3AF;
+}
+
+.search-input:focus {
+  outline: none;
+  background: #FFFFFF;
+  border-color: #FFC107;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+}
+
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Icon Action Buttons */
+.btn-icon-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-action:hover {
+  background: #FFF9E6;
+  border-color: #FFC107;
+  color: #1F2937;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: #EF4444;
+  border: 2px solid #FFFFFF;
+  border-radius: 9px;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* User Profile Dropdown */
+.user-profile-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 6px 6px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-profile-dropdown:hover {
+  background: #FFF9E6;
+  border-color: #FFC107;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1F2937;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1F2937;
+  line-height: 1.2;
+}
+
+.user-email {
+  font-size: 11px;
+  color: #6B7280;
+  line-height: 1.2;
 }
 
 .btn-logout {
@@ -473,6 +639,7 @@
   background: #FFFFFF;
   border-radius: 20px;
   overflow: hidden;
+  border: 2px solid #FFC107;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -480,7 +647,8 @@
 
 .trip-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 12px 32px rgba(255, 193, 7, 0.3);
+  border-color: #FFD54F;
 }
 
 /* Trip Card Image Container */
@@ -1605,5 +1773,104 @@
 
   .trip-cover-image {
     height: 200px;
+  }
+}
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+
+.dashboard-footer {
+  width: 100%;
+  background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+  border-top: 3px solid #FFC107;
+  padding: 40px 64px;
+  margin-top: 80px;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+
+.footer-text {
+  text-align: center;
+  color: #D1D5DB;
+}
+
+.footer-text p {
+  font-size: 14px;
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.footer-tagline {
+  color: #FFC107;
+  font-weight: 500;
+  font-style: italic;
+  margin-top: 8px !important;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-link {
+  color: #9CA3AF;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #FFC107;
+}
+
+.footer-divider {
+  color: #4B5563;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-footer {
+    padding: 32px 24px;
+  }
+
+  .footer-brand-text {
+    font-size: 18px;
+  }
+
+  .footer-text p {
+    font-size: 13px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-divider {
+    display: none;
   }
 }

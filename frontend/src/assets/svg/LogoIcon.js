@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-const LogoIcon = ({ width = 48, height = 48, color = '#FFC107' }) => (
+const LogoIcon = ({ width = 48, height = 48, color = '#FFC107', withBackground = false }) => (
   <svg 
     width={width} 
     height={height} 
@@ -12,6 +12,17 @@ const LogoIcon = ({ width = 48, height = 48, color = '#FFC107' }) => (
     fill="none" 
     xmlns="http://www.w3.org/2000/svg"
   >
+    {/* Background circle for visibility */}
+    {withBackground && (
+      <circle 
+        cx="24" 
+        cy="24" 
+        r="22" 
+        fill="white" 
+        opacity="0.95"
+      />
+    )}
+    
     {/* Sun */}
     <circle cx="24" cy="16" r="6" fill={color} opacity="0.9" />
     

@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
+import Navbar from '../../components/Navbar/Navbar';
 import { 
   PlusIcon, 
   CalendarIcon, 
@@ -283,19 +284,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Top Navigation Bar */}
-      <nav className="dashboard-navbar">
-        <div className="navbar-brand" onClick={() => navigate('/dashboard')}>
-          <LogoIcon width={48} height={48} />
-          <span className="brand-text">PLANORA</span>
-        </div>
-        <div className="navbar-actions">
-          <button className="btn-logout" onClick={handleLogout}>
-            <LogoutIcon size={20} />
-            <span>Logout</span>
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Banner Section with Carousel */}
       <section className="hero-section">
@@ -494,6 +483,28 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="dashboard-footer">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <LogoIcon width={32} height={32} />
+            <span className="footer-brand-text">PLANORA</span>
+          </div>
+          <div className="footer-text">
+            <p>© {new Date().getFullYear()} Planora. All rights reserved.</p>
+            <p>PLANORA™ is a trademark of Planora Inc.</p>
+            <p className="footer-tagline">Design your journey with confidence</p>
+          </div>
+          <div className="footer-links">
+            <a href="#privacy" className="footer-link">Privacy Policy</a>
+            <span className="footer-divider">•</span>
+            <a href="#terms" className="footer-link">Terms of Service</a>
+            <span className="footer-divider">•</span>
+            <a href="#contact" className="footer-link">Contact Us</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

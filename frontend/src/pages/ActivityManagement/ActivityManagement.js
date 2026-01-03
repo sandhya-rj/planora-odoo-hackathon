@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ActivityManagement.css';
+import Navbar from '../../components/Navbar/Navbar';
 import { 
   PlusIcon, 
   ActivityIcon, 
@@ -18,6 +19,59 @@ import {
   EditIcon
 } from '../../assets/svg/Icons';
 import { stopAPI, activityAPI } from '../../services/api';
+
+/**
+ * DEMO DATA - Realistic activities for different stops
+ * Provides meaningful demo experience when backend is unavailable
+ */
+const DEMO_ACTIVITIES_DATA = {
+  's1': { // Paris
+    stop: { 
+      id: 's1', 
+      cityName: 'Paris', 
+      country: 'France', 
+      startDate: '2025-12-28', 
+      endDate: '2026-01-02' 
+    },
+    activities: [
+      { id: 'a1', name: 'Visit Eiffel Tower', time: '09:00', cost: '28', status: 'done', notes: 'Skip the elevator, climb stairs for better experience' },
+      { id: 'a2', name: 'Louvre Museum Tour', time: '14:00', cost: '17', status: 'done', notes: 'Book tickets online to avoid queues' },
+      { id: 'a3', name: 'Seine River Cruise', time: '19:00', cost: '15', status: 'planned', notes: 'Evening cruise offers best views' },
+      { id: 'a4', name: 'Montmartre Walking Tour', time: '10:00', cost: '0', status: 'planned', notes: 'Free self-guided tour, visit Sacré-Cœur' },
+      { id: 'a5', name: 'Versailles Day Trip', time: '08:00', cost: '45', status: 'planned', notes: 'Full day trip, bring lunch' }
+    ]
+  },
+  's2': { // Amsterdam
+    stop: { 
+      id: 's2', 
+      cityName: 'Amsterdam', 
+      country: 'Netherlands', 
+      startDate: '2026-01-03', 
+      endDate: '2026-01-08' 
+    },
+    activities: [
+      { id: 'a6', name: 'Anne Frank House', time: '10:00', cost: '14', status: 'planned', notes: 'Book online weeks in advance' },
+      { id: 'a7', name: 'Canal Cruise', time: '15:00', cost: '18', status: 'planned', notes: 'Audio guide included' },
+      { id: 'a8', name: 'Van Gogh Museum', time: '13:00', cost: '20', status: 'planned', notes: 'Timed entry tickets required' },
+      { id: 'a9', name: 'Bike City Tour', time: '09:00', cost: '25', status: 'planned', notes: 'Most authentic way to see Amsterdam' }
+    ]
+  },
+  's3': { // Berlin
+    stop: { 
+      id: 's3', 
+      cityName: 'Berlin', 
+      country: 'Germany', 
+      startDate: '2026-01-09', 
+      endDate: '2026-01-15' 
+    },
+    activities: [
+      { id: 'a10', name: 'Brandenburg Gate', time: '10:00', cost: '0', status: 'planned', notes: 'Free to visit, iconic landmark' },
+      { id: 'a11', name: 'Berlin Wall Memorial', time: '14:00', cost: '0', status: 'planned', notes: 'Open-air exhibition' },
+      { id: 'a12', name: 'Museum Island Pass', time: '11:00', cost: '24', status: 'planned', notes: 'Access to 5 world-class museums' },
+      { id: 'a13', name: 'Street Food Tour', time: '18:00', cost: '35', status: 'planned', notes: 'Sample local cuisine' }
+    ]
+  }
+};
 
 const ActivityManagement = () => {
   const { tripId, stopId } = useParams();
@@ -54,7 +108,15 @@ const ActivityManagement = () => {
       setActivities(activitiesResponse.activities || []);
     } catch (error) {
       console.error('Failed to load data:', error);
-      setAlert({ type: 'error', message: 'Failed to load activities' });
+      
+      // Use demo data if backend fails
+      const demoData = DEMO_ACTIVITIES_DATA[stopId];
+      if (demoData) {
+        setStop(demoData.stop);
+        setActivities(demoData.activities);
+      } else {
+        setAlert({ type: 'error', message: 'Stop not found' });
+      }
     } finally {
       setLoading(false);
     }
@@ -193,7 +255,7 @@ const ActivityManagement = () => {
     return (
       <div className="activities-error">
         <p>Stop not found</p>
-        <button onClick={() => navigate(`/trip/${tripId}/stops`)} className="btn-back">
+        <button onClick={() => navigate(`/trips/${tripId}/stops`)} className="btn-back">
           Back to Itinerary
         </button>
       </div>
@@ -202,12 +264,15 @@ const ActivityManagement = () => {
 
   return (
     <div className="activities-page">
+      {/* Navbar */}
+      <Navbar />
+      
       {/* Header */}
       <header className="activities-header">
         <div className="header-overlay"></div>
         <div className="header-content">
-          <button className="back-btn" onClick={() => navigate(`/trip/${tripId}/stops`)}>
-            <ArrowLeftIcon size={20} />
+          <button className="back-btn" onClick={() => navigate(`/trips/${tripId}/stops`)}>
+            <ChevronLeftIcon size={20} />
             <span>Back to Itinerary</span>
           </button>
           <div className="header-info">
